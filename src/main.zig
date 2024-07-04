@@ -31,4 +31,15 @@ const BITMAP_INFO_HEADER = struct {
     biClrImportant: u32,
 };
 
-pub fn main() !void {}
+pub fn main() !void {
+    const mem = std.heap.page_allocator;
+    const img = try mem.alloc(u8, WIDTH * HEIGHT * 3);
+    std.debug.print("{}", .{img.len});
+}
+
+fn set_pixel(img: *u8, x: i32, y: i32, r: u8, g: u8, b: u8) void {
+    const index = (x + y * WIDTH) * 3;
+    img[index + 0] = b; // BMP format stores pixels in BGR order
+    img[index + 1] = g;
+    img[index + 2] = r;
+}
