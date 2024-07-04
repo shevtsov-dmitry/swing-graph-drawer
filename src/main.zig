@@ -1,24 +1,34 @@
 const std = @import("std");
 
-pub fn main() !void {
-    // Prints to stderr (it's a shortcut based on `std.io.getStdErr()`)
-    std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
+const WIDTH = 400;
+const HEIGHT = 400;
+const CIRCLE_DIAMETER = 50;
+const CIRCLE_RADIUS = (CIRCLE_DIAMETER / 2);
+const CENTER_X = (WIDTH / 2);
+const CENTER_Y = (HEIGHT / 2);
 
-    // stdout is for the actual output of your application, for example if you
-    // are implementing gzip, then only the compressed bytes should be sent to
-    // stdout, not any debugging messages.
-    const stdout_file = std.io.getStdOut().writer();
-    var bw = std.io.bufferedWriter(stdout_file);
-    const stdout = bw.writer();
+// BMP file header
+const BITMAP_FILE_HEADER = struct {
+    bfType: u16,
+    bfSize: u32,
+    bfReserved1: u16,
+    bfReserved2: u16,
+    bfOffBits: u32,
+};
 
-    try stdout.print("Run `zig build test` to run the tests.\n", .{});
+// BMP info header
+const BITMAP_INFO_HEADER = struct {
+    biSize: u32,
+    biWidth: i32,
+    biHeight: i32,
+    biPlanes: u16,
+    biBitCount: u16,
+    biCompression: u32,
+    biSizeImage: u32,
+    biXPelsPerMeter: i32,
+    biYPelsPerMeter: i32,
+    biClrUsed: u32,
+    biClrImportant: u32,
+};
 
-    try bw.flush(); // don't forget to flush!
-}
-
-test "simple test" {
-    var list = std.ArrayList(i32).init(std.testing.allocator);
-    defer list.deinit(); // try commenting this out and see if zig detects the memory leak!
-    try list.append(42);
-    try std.testing.expectEqual(@as(i32, 42), list.pop());
-}
+pub fn main() !void {}
